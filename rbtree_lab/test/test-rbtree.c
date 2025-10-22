@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// new_rbtree should return rbtree struct with null root node
 void test_init(void)
 {
+  printf("test_init\n");
   rbtree *t = new_rbtree();
   assert(t != NULL);
 #ifdef SENTINEL
@@ -21,6 +21,7 @@ void test_init(void)
 // root node should have proper values and pointers
 void test_insert_single(const key_t key)
 {
+  printf("test_insert_single\n");
   rbtree *t = new_rbtree();
   node_t *p = rbtree_insert(t, key);
   assert(p != NULL);
@@ -42,6 +43,7 @@ void test_insert_single(const key_t key)
 // find should return the node with the key or NULL if no such node exists
 void test_find_single(const key_t key, const key_t wrong_key)
 {
+  printf("test_find_single\n");
   rbtree *t = new_rbtree();
   node_t *p = rbtree_insert(t, key);
 
@@ -59,6 +61,7 @@ void test_find_single(const key_t key, const key_t wrong_key)
 // erase should delete root node
 void test_erase_root(const key_t key)
 {
+  printf("test_erase_root\n");
   rbtree *t = new_rbtree();
   node_t *p = rbtree_insert(t, key);
   assert(p != NULL);
@@ -106,7 +109,7 @@ void test_minmax(key_t *arr, const size_t n)
 {
   // null array is not allowed
   assert(n > 0 && arr != NULL);
-
+  printf("test_minmax\n");
   rbtree *t = new_rbtree();
   assert(t != NULL);
 
@@ -143,6 +146,7 @@ void test_minmax(key_t *arr, const size_t n)
 
 void test_to_array(rbtree *t, const key_t *arr, const size_t n)
 {
+  printf("test_to_array\n");
   assert(t != NULL);
 
   insert_arr(t, arr, n);
@@ -159,6 +163,7 @@ void test_to_array(rbtree *t, const key_t *arr, const size_t n)
 
 void test_multi_instance()
 {
+  printf("test_multi_instance\n");
   rbtree *t1 = new_rbtree();
   assert(t1 != NULL);
   rbtree *t2 = new_rbtree();
@@ -230,6 +235,7 @@ static bool search_traverse(const node_t *p, key_t *min, key_t *max,
 
 void test_search_constraint(const rbtree *t)
 {
+  printf("test_search_constraint\n");
   assert(t != NULL);
   node_t *p = t->root;
   key_t min, max;
@@ -352,14 +358,13 @@ void test_find_erase(rbtree *t, const key_t *arr, const size_t n)
   for (int i = 0; i < n; i++)
   {
     node_t *p = rbtree_insert(t, arr[i]);
-    assert(p != NULL);
+    assert(p != t->nil);
   }
 
   for (int i = 0; i < n; i++)
   {
     node_t *p = rbtree_find(t, arr[i]);
-    // printf("arr[%d] = %d\n", i, arr[i]);
-    assert(p != NULL);
+    assert(p != t->nil);
     assert(p->key == arr[i]);
     rbtree_erase(t, p);
   }
@@ -373,9 +378,9 @@ void test_find_erase(rbtree *t, const key_t *arr, const size_t n)
   for (int i = 0; i < n; i++)
   {
     node_t *p = rbtree_insert(t, arr[i]);
-    assert(p != NULL);
+    assert(p != t->nil);
     node_t *q = rbtree_find(t, arr[i]);
-    assert(q != NULL);
+    assert(q != t->nil);
     assert(q->key == arr[i]);
     assert(p == q);
     rbtree_erase(t, p);
